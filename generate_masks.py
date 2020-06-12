@@ -91,16 +91,16 @@ def predict(model, from_file_names, batch_size, to_path, problem_type, img_trans
                     factor = prepare_data.instrument_factor
                     t_mask = (outputs[i].data.cpu().numpy().argmax(axis=0) * factor).astype(np.uint8)
 
-                h, w = t_mask.shape
+                #h, w = t_mask.shape
 
-                full_mask = np.zeros((original_height, original_width))
-                full_mask[h_start:h_start + h, w_start:w_start + w] = t_mask
+                #full_mask = np.zeros((original_height, original_width))
+                #full_mask[h_start:h_start + h, w_start:w_start + w] = t_mask
 
                 instrument_folder = Path(paths[i]).parent.parent.name
 
                 (to_path / instrument_folder).mkdir(exist_ok=True, parents=True)
 
-                cv2.imwrite(str(to_path / instrument_folder / (Path(paths[i]).stem + '.png')), full_mask)
+                cv2.imwrite(str(to_path / instrument_folder / (Path(paths[i]).stem + '.png')), t_mask)
 
 
 if __name__ == '__main__':

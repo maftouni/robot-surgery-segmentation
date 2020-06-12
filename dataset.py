@@ -3,8 +3,8 @@ import numpy as np
 import cv2
 from torch.utils.data import Dataset
 import prepare_data
-from albumentations.torch.functional import img_to_tensor
-
+#from albumentations.torch.functional import img_to_tensor
+from albumentations.pytorch.functional import img_to_tensor
 
 class RoboticsDataset(Dataset):
     def __init__(self, file_names, to_augment=False, transform=None, mode='train', problem_type=None):
@@ -37,6 +37,7 @@ class RoboticsDataset(Dataset):
 
 def load_image(path):
     img = cv2.imread(str(path))
+    #print(str(path))
     return cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 
@@ -50,7 +51,9 @@ def load_mask(path, problem_type):
     elif problem_type == 'instruments':
         factor = prepare_data.instrument_factor
         mask_folder = 'instruments_masks'
+        
 
     mask = cv2.imread(str(path).replace('images', mask_folder).replace('jpg', 'png'), 0)
+    #print('jjjjjjjjjjjjjjjj',str(path))
 
     return (mask / factor).astype(np.uint8)

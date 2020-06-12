@@ -6,6 +6,7 @@ from validation import validation_binary, validation_multi
 import torch
 from torch import nn
 from torch.optim import Adam
+from torch.optim import SGD
 from torch.utils.data import DataLoader
 import torch.backends.cudnn as cudnn
 import torch.backends.cudnn
@@ -14,6 +15,7 @@ from models import UNet11, LinkNet34, UNet, UNet16, AlbuNet
 from loss import LossBinary, LossMulti
 from dataset import RoboticsDataset
 import utils
+
 import sys
 from prepare_train_val import get_split
 
@@ -93,6 +95,7 @@ def main():
 
     if args.type == 'binary':
         loss = LossBinary(jaccard_weight=args.jaccard_weight)
+        
     else:
         loss = LossMulti(num_classes=num_classes, jaccard_weight=args.jaccard_weight)
 
@@ -106,7 +109,8 @@ def main():
             batch_size=batch_size,
             pin_memory=torch.cuda.is_available()
         )
-
+    
+    #print('sfsdgsdhsfffffffffff',args.fold)
     train_file_names, val_file_names = get_split(args.fold)
 
     print('num train = {}, num_val = {}'.format(len(train_file_names), len(val_file_names)))
@@ -139,7 +143,8 @@ def main():
         valid = validation_binary
     else:
         valid = validation_multi
-
+    
+    print(model.parameters())
     utils.train(
         init_optimizer=lambda lr: Adam(model.parameters(), lr=lr),
         args=args,

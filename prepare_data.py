@@ -42,6 +42,7 @@ if __name__ == '__main__':
         # mask_folders = [x for x in mask_folders if 'Other' not in str(mask_folders)]
 
         for file_name in tqdm(list((train_path / instrument_folder / 'left_frames').glob('*'))):
+            print('left_frames')
             img = cv2.imread(str(file_name))
             old_h, old_w, _ = img.shape
 

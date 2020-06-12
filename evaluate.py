@@ -65,7 +65,7 @@ if __name__ == '__main__':
     result_jaccard = []
 
     if args.problem_type == 'binary':
-        for instrument_id in tqdm(range(1, 9)):
+        for instrument_id in [2]:
             instrument_dataset_name = 'instrument_dataset_' + str(instrument_id)
 
             for file_name in (
@@ -75,7 +75,9 @@ if __name__ == '__main__':
                 pred_file_name = (Path(args.target_path) / 'binary' / instrument_dataset_name / file_name.name)
 
                 pred_image = (cv2.imread(str(pred_file_name), 0) > 255 * 0.5).astype(np.uint8)
-                y_pred = pred_image[h_start:h_start + height, w_start:w_start + width]
+                y_pred = pred_image
+                #[h_start:h_start + height, w_start:w_start + width]
+                #print(file_name)
 
                 result_dice += [dice(y_true, y_pred)]
                 result_jaccard += [jaccard(y_true, y_pred)]
